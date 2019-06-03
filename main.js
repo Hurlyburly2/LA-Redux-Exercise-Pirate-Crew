@@ -11,13 +11,19 @@ const crewReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         currentCrewMembers: newPirateArray
       })
+    case WALK_THE_PLANK:
+      let pirateArrayToDeleteFrom = state.currentCrewMembers
+      const deleteFromArrayIndex = pirateArrayToDeleteFrom.indexOf(action.pirateToWalk)
+      pirateArrayToDeleteFrom.splice(deleteFromArrayIndex, 1)
+      return Object.assign({}, state, {
+        currentCrewMembers: pirateArrayToDeleteFrom
+      })
     default:
       return state;
   }
 }
 
 const createNextId = () => {
-  debugger
   const currentCrewMembers = store.getState().currentCrewMembers
   const pirateIds = []
   if (currentCrewMembers.length === 0) {
@@ -51,9 +57,18 @@ newPirateForm.addEventListener('submit', () => {
 
 const WALK_THE_PLANK = 'WALK_THE_PLANK'
 
+const walkThePlank = pirateToWalk => {
+  return {
+    type: WALK_THE_PLANK,
+    pirateToWalk: pirateToWalk
+  }
+}
+
 const walkThePlankMatey = document.getElementById('walk-the-plank')
 walkThePlankMatey.addEventListener('click', () => {
-  alert('fjsdal')
+  event.preventDefault();
+  pirateToWalk = store.getState().currentCrewMembers[0]
+  store.dispatch(walkThePlank(pirateToWalk))
 })
 
 const store = createStore(crewReducer)
