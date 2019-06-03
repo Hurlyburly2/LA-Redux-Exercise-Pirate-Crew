@@ -49,6 +49,13 @@ newPirateForm.addEventListener('submit', () => {
   store.dispatch(addPirateToList(newPirate))
 })
 
+const WALK_THE_PLANK = 'WALK_THE_PLANK'
+
+const walkThePlankMatey = document.getElementById('walk-the-plank')
+walkThePlankMatey.addEventListener('click', () => {
+  alert('fjsdal')
+})
+
 const store = createStore(crewReducer)
 
 const crewList = document.getElementById('current-crew')
