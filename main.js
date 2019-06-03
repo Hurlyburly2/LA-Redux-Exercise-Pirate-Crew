@@ -1,7 +1,8 @@
 const { createStore } = Redux;
 
 const initialState = {
-  currentCrewMembers: []
+  currentCrewMembers: [],
+  walkedThePlank: []
 }
 
 const crewReducer = (state = initialState, action) => {
@@ -15,8 +16,11 @@ const crewReducer = (state = initialState, action) => {
       let pirateArrayToDeleteFrom = state.currentCrewMembers
       const deleteFromArrayIndex = pirateArrayToDeleteFrom.indexOf(action.pirateToWalk)
       pirateArrayToDeleteFrom.splice(deleteFromArrayIndex, 1)
+      
+      const walkedThePlank = state.walkedThePlank.concat(action.pirateToWalk)
       return Object.assign({}, state, {
-        currentCrewMembers: pirateArrayToDeleteFrom
+        currentCrewMembers: pirateArrayToDeleteFrom,
+        walkedThePlank: walkedThePlank
       })
     default:
       return state;
@@ -74,12 +78,18 @@ walkThePlankMatey.addEventListener('click', () => {
 const store = createStore(crewReducer)
 
 const crewList = document.getElementById('current-crew')
+const walkedThePlankList = document.getElementById('walked-crew')
 const render = () => {
   let newCrewList = []
+  let plankWalkers = []
   store.getState().currentCrewMembers.forEach(function(pirate) {
     newCrewList += `<li>${pirate.id} ${pirate.name}</li>`
   })
+  store.getState().walkedThePlank.forEach(function(pirate) {
+    plankWalkers += `<li>${pirate.id} ${pirate.name}</li>`
+  })
   crewList.innerHTML = newCrewList
+  walkedThePlankList.innerHTML = plankWalkers
 }
 
 render();
