@@ -79,17 +79,23 @@ const store = createStore(crewReducer)
 
 const crewList = document.getElementById('current-crew')
 const walkedThePlankList = document.getElementById('walked-crew')
+const plankCountOnScreen = document.getElementById('plank-walkers')
+
 const render = () => {
   let newCrewList = []
-  let plankWalkers = []
   store.getState().currentCrewMembers.forEach(function(pirate) {
     newCrewList += `<li>${pirate.id} ${pirate.name}</li>`
   })
+  
+  let plankWalkers = []
   store.getState().walkedThePlank.forEach(function(pirate) {
     plankWalkers += `<li>${pirate.id} ${pirate.name}</li>`
   })
+  
+  let plankCount = store.getState().walkedThePlank.length
   crewList.innerHTML = newCrewList
   walkedThePlankList.innerHTML = plankWalkers
+  plankCountOnScreen.innerHTML = plankCount
 }
 
 render();
